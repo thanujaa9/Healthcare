@@ -1,0 +1,7 @@
+node_modules
+backend/node_modules
+frontend/node_modules
+backend/.env      # If you have a .env file in your backend
+frontend/build    # If your frontend builds to a 'build' folder (e.g., React)
+frontend/dist     # If your frontend builds to a 'dist' folder (e.g., Vue)
+# Add any other folders or files you want to ignore
