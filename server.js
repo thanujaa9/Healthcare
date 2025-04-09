@@ -1,36 +1,33 @@
-require('dotenv').config();
-const express = require('express');
-const connectDB = require('./config/db');
-const mongoose = require('mongoose');
-const cors = require('cors');
+require("dotenv").config();
+const express = require("express");
+const connectDB = require("./config/db");
+const cors = require("cors");
+const path = require('path'); // Import the 'path' module
 
 const app = express();
 
-//Appoinment routes
+// Import Routes
+const authRoutes = require('./routes/authRoutes');
+const doctorRoutes = require('./routes/doctorRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
-app.use('/api/appointments', appointmentRoutes);
+const prescriptionRoutes = require("./routes/prescriptionRoutes");
 
-
-// Middleware
+// Middleware (Must be before routes)
 app.use(express.json());
 app.use(cors());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => console.log('✅ MongoDB Connected'))
-  .catch(err => console.log('❌ MongoDB Connection Error:', err));
+connectDB();
+
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // <---- ADD THIS LINE
 
 // Routes
-const authRoutes = require('./routes/authRoutes');
-app.use('/api/auth', authRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/doctors", doctorRoutes);
+app.use("/api/appointments", appointmentRoutes);
+app.use("/api/prescriptions", prescriptionRoutes);
 
 // Server listening
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-
-//Doctor Routes
-const doctorRoutes = require('./routes/doctorRoutes');
-app.use('/api/doctors', doctorRoutes);
-

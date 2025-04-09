@@ -1,25 +1,36 @@
 const express = require('express');
-const { createAppointment, getAllAppointments, getAppointmentsByPatient, getAppointmentsByDoctor, updateAppointmentStatus, deleteAppointment } = require('../controllers/appointmentController');
-const authMiddleware = require('../middleware/authMiddleware');
+const {
+    createAppointment,
+    getAllAppointments,
+    getPatientAppointments,
+    getAppointmentsByDoctor,
+    updateAppointmentStatus,
+    deleteAppointment,
+    getDoctorAppointments // ✅ Import the new function
+} = require('../controllers/appointmentController');
+const { protect, authorizeRoles } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// 📌 Create an appointment
-router.post('/book', authMiddleware, createAppointment);
+// 📌 Create an appointment (protected route for patients)
+router.post('/book', protect, authorizeRoles('patient'), createAppointment);
 
-// 📌 Get all appointments (Admin only)
-router.get('/all', authMiddleware, getAllAppointments);
+// 📌 Get all appointments (Assuming this is for internal use, protect as needed)
+router.get("/all", protect, authorizeRoles('admin'), getAllAppointments); // Keep if needed, adjust role if not
 
-// 📌 Get appointments by patient
-router.get('/patient/:patientId', authMiddleware, getAppointmentsByPatient);
+// 📌 Get appointments for the logged-in patient (protected route for patients)
+router.get('/patient', protect, authorizeRoles('patient'), getPatientAppointments);
 
-// 📌 Get appointments by doctor
-router.get('/doctor/:doctorId', authMiddleware, getAppointmentsByDoctor);
+// 📌 Get appointments by doctor ID (protected route for doctors to view their schedule or specific appointments)
+router.get('/doctor/:doctorId', protect, authorizeRoles('doctor'), getAppointmentsByDoctor);
 
-// 📌 Update appointment status
-router.put('/update/:appointmentId', authMiddleware, updateAppointmentStatus);
+// ✅ NEW ROUTE TO FETCH APPOINTMENTS FOR THE LOGGED-IN DOCTOR (protected route for doctors)
+router.get('/doctor', protect, authorizeRoles('doctor'), getDoctorAppointments);
 
-// 📌 Delete an appointment
-router.delete('/delete/:appointmentId', authMiddleware, deleteAppointment);
+// 📌 Update appointment status (protected route for doctors)
+router.put('/update-status/:appointmentId', protect, authorizeRoles('doctor'), updateAppointmentStatus);
+
+// 📌 Delete an appointment (protected route for patients and doctors)
+router.delete('/delete/:appointmentId', protect, authorizeRoles('patient', 'doctor'), deleteAppointment);
 
 module.exports = router;
