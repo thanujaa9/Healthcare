@@ -17,6 +17,7 @@ Doctors and patients receive unique meeting URLs.
 
 Supports over 20+ mock consultations during testing.
 
+
 2. Role-Based Dashboards (Doctor & Patient)
 
 Doctor Dashboard:
@@ -35,6 +36,7 @@ Download prescriptions
 
 View visit history
 
+
  3. Appointment Management
 
 Real-time slot availability
@@ -45,6 +47,7 @@ Appointment confirmation, cancellation, and history
 
 Fully implemented end-to-end for 20+ appointment flows
 
+
 4. Secure Authentication (JWT)
 
 Login & signup for both doctors and patients
@@ -52,6 +55,7 @@ Login & signup for both doctors and patients
 Protected routes with access control
 
 Separate dashboards based on user role
+
 
 5. Prescription Handling
 
@@ -61,6 +65,7 @@ Patients can view/download prescriptions anytime
 
 Cloud storage compatible design
 
+
 6. Clean UI with Tailwind CSS
 
 Responsive layouts
@@ -68,6 +73,7 @@ Responsive layouts
 Easy navigation for both user roles
 
 Dashboard-based structure for smooth workflows
+
 
 🛠️ System Architecture
 
@@ -82,6 +88,7 @@ Auth: JWT tokens (role-based access)
 Video Calls: Zoom API integration
 
 File Handling: PDF upload/download for prescriptions
+
 
 📊 Performance & Testing
 
