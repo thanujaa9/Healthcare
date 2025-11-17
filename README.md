@@ -1,4 +1,5 @@
-Doctor Consultation Website
+**Doctor Consultation Website**
+
 Virtual Healthcare Platform with Online Appointments & Zoom Integration
 
 Tech Stack:
